@@ -21,27 +21,6 @@ class ArticlesController extends AppController
     {
         $articles = $this->paginate($this->Articles);
 
-        $contain_articles = $this->Articles->find()
-	        ->matching(
-        		'Tags', function(Query $q) {
-        			return $q->matching('TagOptions', function(Query $i) {
-        				return $i->where(['TagOptions.name' => 'display_tag']);
-			        });
-        		    /*return $q->matching('Icons', function(Query $i) {
-        		    	return $i->where(['Icons.icon' => 'sad']);
-		            });*/
-		        })
-	        ->matching('Icons', function(Query $q) {
-	            /*return $q->matching('Tags', function(Query $i) {
-		            return $i->where(['Tags.name' => 'Good']);
-	            });*/
-		        return $q->where(['Icons.icon' => 'sad']);
-            }
-        );
-		$all_articles = $contain_articles->all();
-
-        debug($contain_articles->count()); die;
-
         $this->set(compact('articles'));
         $this->set('_serialize', ['articles']);
     }

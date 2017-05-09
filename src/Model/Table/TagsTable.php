@@ -47,11 +47,6 @@ class TagsTable extends Table
             'targetForeignKey' => 'article_id',
             'joinTable' => 'articles_tags'
         ]);
-        /*$this->belongsToMany('Icons', [
-            'foreignKey' => 'tag_id',
-            'targetForeignKey' => 'icon_id',
-            'joinTable' => 'icons_tags'
-        ]);*/
         $this->belongsToMany('TagOptions', [
             'foreignKey' => 'tag_id',
             'targetForeignKey' => 'tag_option_id',

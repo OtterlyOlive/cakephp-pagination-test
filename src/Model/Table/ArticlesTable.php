@@ -1,6 +1,7 @@
 <?php
 namespace App\Model\Table;
 
+use Cake\Event\Event;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -74,5 +75,19 @@ class ArticlesTable extends Table
             ->notEmpty('content');
 
         return $validator;
+    }
+
+    public function beforeFind(Event $event, Query $query) {
+    	$query->matching(
+		    'Tags', function(Query $q) {
+			    return $q->matching('TagOptions', function(Query $i) {
+				    return $i->where(['TagOptions.name' => 'display_tag']);
+			    });
+		    })
+		    ->matching('Icons', function(Query $q) {
+			    return $q->where(['Icons.icon' => 'sad']);
+		    });
+
+    	return $event;
     }
 }
